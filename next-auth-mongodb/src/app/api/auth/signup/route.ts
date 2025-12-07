@@ -22,7 +22,11 @@ export async function POST(request: Request) {
     const newUser = new User({ name, email, password: hashedPassword });
     const savedUser = await newUser.save();
     console.log('Saved user:', savedUser);
-    return NextResponse.json(savedUser, { status: 201 });
+    return NextResponse.json({
+      email: savedUser.email,
+      name: savedUser.name,
+      id: savedUser._id
+    }, { status: 201 });
   } catch (error) {
     console.error('Error creating user:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
